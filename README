@@ -7,6 +7,4 @@ However, crawling the web takes up a significant amount of resources. In particu
 The task of focused crawling requires the crawler to be able to discern wanted pages from unwanted pages, but by immediately discarding unwanted pages, the crawler may miss wanted pages that the discarded page linked to. As a result, some elements of planning have to be included in the design of a focused crawler in order to reduce loss of relevant pages.
 
 The proposed project intends to investigate how Markov Decision Processes can be used for the purpose of focused crawling and its viability compared to other approaches.
-\section{Related Work}
-
 
