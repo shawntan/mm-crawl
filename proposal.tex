@@ -1,33 +1,40 @@
 \documentclass{article}
 \usepackage{amsmath}
-	\addtolength{\oddsidemargin}{-.875in}
-	\addtolength{\evensidemargin}{-.875in}
-	\addtolength{\textwidth}{1.75in}
+	\addtolength{\oddsidemargin}{-.75in}
+	\addtolength{\evensidemargin}{-.75in}
+	\addtolength{\textwidth}{1.25in}
 	\addtolength{\topmargin}{-1in}
 	\addtolength{\textheight}{1.75in}
 \title{Proposal for CS4246R Project:\\Markov Decision Process for Focused Web Crawling}
 \author{U096883L Shawn Tan}
 \begin{document}
 \maketitle
-\section{Introduction}
+\section{Introduction \& Motivation}
 The amount of content on the World Wide Web has been growing exponentially. Systems have been built to cope with this large amount of data by either categorising them, or indexing them to make search possible.
 
 With the introduction of more user-generated content in recent years, efforts have been made not only to classify the web but also toward understanding the data available. Data-mining usually involves crawling websites and analysing the data using machine learning techniques.
 
-However, crawling the web takes up a significant amount of resources. In particular, crawlers typically open several data streams to download pages simultaneously. Many of these pages do not have important data, resulting in wastage of bandwith. Focused crawling aims to reduce this redundant IO costs by crawling only pages deemed relevant to the topic requested. 
+A naive approach to crawling usually involves maintaining a FIFO queue in which links seen are stored, and visited either sequentially, or as mentioned previously, requested when a data stream is unused. All of the links seen on the resulting page or pages would then be added to the FIFO queue, and the process is repeated until all pages in the site have been visited, or a sufficient crawl depth has been reached. Sifting through \emph{all} of the links incurs a huge I/O cost when only a small percentage of the entire site are the target pages. This is when focused crawling techniques are used.
 
-The task of focused crawling requires the crawler to be able to discern wanted pages from unwanted pages, but by immediately discarding unwanted pages, the crawler may miss wanted pages that the discarded page linked to. As a result, some elements of planning have to be included in the design of a focused crawler in order to reduce loss of relevant pages.
+Focused crawling makes use of information given on the visited page to try to determine which links are relevant for further exploration and which to discard. This reduces the cost of fetching irrelevant pages (e.g. fetching a site's about page when crawling for product prices).
+ 
+The proposed project intends to investigate how Partially Observable Markov Decision Processes (POMDPs) can be used for the purpose of focused crawling and its viability compared to other approaches. The motivation for doing this is to be able to minimise the costs of crawling sites in an unsupervised manner for useful data.
 
-The proposed project intends to investigate how Markov Decision Processes can be used for the purpose of focused crawling and its viability compared to other approaches.
-\section{Related Work}
+\section{Proposed Approach \& Implementation}
+I intend to investigate how modeling not only the uncertainty of the transitions, but also the uncertainty of the current state the crawler or bot is in using POMDPs would affect its performance, and its overall efficiency.
+
+My UROP topic was based on Web Information Extraction, and when POMDPs were introduced during the course of CS4246, I thought it would be interesting to apply it to focused web crawling. There has been work done using reinforcement learning to control a web crawler \cite{Perez2003,Rennie1999,Menczer2000}, but to my knowledge, none for POMDPs. I would like to investigate how accounting for state by giving it a probability distribution would improve the performance of the crawler.
+
+The project is likely to be a web crawler implemented in Python. One of my learning goals in implementing the project, is to understand what are the various ways POMDPs are solved or approximated. In doing so, I aim to use the method most suitable for this particular problem. The process of framing the as a POMDP also requires mapping of state-actions or state-action-states to rewards. This is another detail with regards to using POMDPs that I would like to look further into.
+
+To evaluate the system, I intend to employ the methods used in Rennie, 1999 \cite{Rennie1999}. Given a site, I will identify similar pages of the same type of data, using this as the target set of pages for each crawler to find. Two different control crawlers will be implemented:
+\begin{description}
+	\item[\textsc{Optimal}] This crawler will be scripted by hand to navigate directly from the start point to the various target pages to be downloaded.
+	\item[\textsc{Breadth-First}] This crawler will use a breadth-first search to explore the site, retrieving the target pages only when it finds them
+\end{description}
+The efficiency of the crawler will be measured by the number of target pages it finds over time. Another similar metric could also be the ratio of the retrieved target pages to the number of total pages retrieved. This is a reliable metric as the closer the ratio tends towards one, the lesser the I/O cost required to get the target pages.
 
 
-
-
-\section{Implementation}
-
-
-
-\section{Conclusion}
-
+\bibliographystyle{acm}
+\bibliography{proposal}
 \end{document}
