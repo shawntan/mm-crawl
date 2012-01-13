@@ -1,6 +1,7 @@
 #!/bin/python2
-
 import sys
+from copy import deepcopy
+
 class Matrix:
 	def __init__(self,arr):
 		self.arr = arr
@@ -21,7 +22,6 @@ class Matrix:
 			for j in range(len(self.arr)):
 				result[i].append(self.arr[j][i])
 		return Matrix(result)
-
 
 	def scalar(self,m1,m2,op):
 		result = []
@@ -48,14 +48,51 @@ class Matrix:
 		out = ''
 		for r in self.arr:
 			for c in r:
-				out += '%d '%c
+				out += '%0.2f '%c
 			out += '\n'
 		return out
+	
+	def eliminate(self,other):
+		clone,result = Matrix(deepcopy(self.arr)),Matrix(deepcopy(other.arr))
+		m1,m2 = clone.arr,result.arr
+
+		for col in range(len(m1[0])):
+			nonzero = (i for i in range(col,len(m1)) if m1[i][col]!=0).next()
+			factor = 1.0/float(m1[nonzero][col])
+			clone.swap_row(nonzero,col)
+			result.swap_row(nonzero,col)
+			clone.multiply_row(factor,col)
+			result.multiply_row(factor,col)
+			for row in range(col+1,len(m1)):
+				if m1[row][col] != 0:
+					fac = m1[row][col]
+					clone.add_multiple_of_row(row,col,-fac)
+					result.add_multiple_of_row(row,col,-fac)
+		for col in reversed(range(1,len(m1[0]))):
+			for row in reversed(range(col)):
+				if m1[row][col] != 0:
+					fac = m1[row][col]
+					clone.add_multiple_of_row(row,col,-fac)
+					result.add_multiple_of_row(row,col,-fac)
+		return result
+			
+	def swap_row(self,src,desc):
+		self.arr[src],self.arr[desc] = self.arr[desc],self.arr[src]
+	def multiply_row(self, factor, row):
+		self.arr[row] = [factor*i for i in self.arr[row]]
+	def add_multiple_of_row(self,r1,r2,factor):
+		self.arr[r1] = [
+			self.arr[r1][i] + factor*self.arr[r2][i]
+			for i in range(len(self.arr[r1]))
+		]
+	@staticmethod
+	def identity(n):
+		return Matrix([[0 if j!=i else 1 for i in range(n) ] for j in range(n)])
 
 m = Matrix([
-	[1,2,3],
-	[4,5,6],
-	[4,5,6]
+	[2.0,0.0,7.0],
+	[1.0,1.0,0.0],
+	[1.0,0.0,3.0]
 ])
 
 I = Matrix([
@@ -63,8 +100,4 @@ I = Matrix([
 	[0,1,0],
 	[0,0,1]
 ])
-
-
-				
-
-
+ 
