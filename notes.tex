@@ -1,0 +1,69 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath}
+%Gummi|061|=)
+\title{\textbf{Notes}\\\textit{on}\\\textbf{Hidden Markov Models with Unknown States}}
+\author{Shawn Tan}
+\begin{document}
+
+\maketitle
+\newcommand{\y}{\mathbf{y}}
+\newcommand{\Y}{\mathbf{Y}}
+\begin{align*}
+T 		& = &	\text{length of the sequence of observations} \\
+N 		& = &	\text{number of states} = |\Omega_X| \\
+M 		& = & 	\text{number of possible observations} = |\Omega_O| \\
+\Omega_X& = & 	\{q_1,\hdots,q_N\} \\
+\Omega_O& = & 	\{o_1,\hdots,o_N\} \\
+X_t		& = &	\text{The state at time $t$} \\
+O_t		& = &	\text{The observation at time $t$} \\
+\sigma	& = &	O_1,\hdots,O_T
+\intertext{Distribution parameters}
+A		& = &	\{a_{i,j}~|~a_{i,j} = P(X_{t+1} = q_j | X_t = q_i)\} \text{(Transitions)} \\
+B		& = &	\{b_i~|~b_i(k) = P(O_t = o_k | X_t = q_i)\} \text{(Observations)}\\
+\pi		& = &	\{\pi_k~|~\pi_k = P(X_0 = q_k) \}\text{(Initial)}\\
+\lambda & = &	\{A,B,\pi\}
+\end{align*}
+
+\begin{enumerate}
+\item Find probability of $P(\sigma|\lambda)$ (backwards)
+Let $\alpha$ such that:
+\begin{align*}
+	\alpha_t(i) & = P(O_1,\hdots,O_t, X_t = q_i | \lambda) \\
+	\alpha_T(i) & = P(O_1,\hdots,O_T, X_T = q_i | \lambda) \\
+				& = P(\sigma,X_T = q_i | \lambda)
+\end{align*}
+compute $\alpha$ values by:
+\begin{align*}
+\alpha_t(i) &= \left\{ 
+		\begin{array}{l l}
+			\pi_i b_i(O_1) &\quad \text{if }t = 1\\
+			\underbrace{b_i(o_{t+1})}_\text{observation probabilty given $o_{t+1}$}
+			\displaystyle \sum_{j=1}^N 
+			\underbrace{a_{j,i}}_\text{transition probability}
+			\alpha_t(j) &\quad \text{if }t > 1\\
+		\end{array}
+	\right.
+\intertext{marginalising,}
+	P(\sigma | \lambda) &= \sum_{i=1}^N P(O_1,\hdots,O_T, X_T = q_i | \lambda)\\
+						&= \sum_{i=1}^N \alpha_T(i)
+\end{align*}
+\begin{align*}
+\intertext{Define $\beta$ (forwards) such that}
+	\beta_t(i) = P(O_{t+1},\hdots,O_T | X_t = q_i, \lambda)
+\end{align*}
+compute $\beta$ values by:
+\begin{align*}
+	\beta_t(i) &= \left\{ 
+		\begin{array}{l l}
+			1 &\quad \text{if }t = T\\
+			\displaystyle \sum_{j=1}^N 
+			\underbrace{a_{i,j}}_\text{transition probability}
+			\underbrace{b_j(o_{t+1})}_\text{observation probabilty given $o_{t+1}$}
+			\beta_{t+1}(j) &\quad \text{if }t < T\\
+		\end{array}
+	\right.
+\end{align*}
+\end{enumerate}
+
+\end{document}

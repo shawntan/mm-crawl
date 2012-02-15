@@ -1,0 +1,20 @@
+\begin{thebibliography}{1}
+
+\bibitem{Menczer2000}
+{\sc Menczer, F., and Belew, R.}
+\newblock {Adaptive retrieval agents: Internalizing local context and scaling
+  up to the Web}.
+\newblock {\em Machine Learning 39}, 2 (2000), 203--242.
+
+\bibitem{Perez2003}
+{\sc Perez, S., and Roxas, R.}
+\newblock {\em {Reinforcement-Based Web Crawler}}.
+\newblock PhD thesis, 2003.
+
+\bibitem{Rennie1999}
+{\sc Rennie, J., and McCallum, A.}
+\newblock {Using reinforcement learning to spider the web efficiently}.
+\newblock In {\em MACHINE LEARNING-INTERNATIONAL WORKSHOP THEN CONFERENCE-\/}
+  (1999), MORGAN KAUFMANN PUBLISHERS, INC., pp.~335--343.
+
+\end{thebibliography}
