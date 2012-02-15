@@ -36,7 +36,10 @@ class MySpider(BaseSpider):
 				yield self.make_requests_from_url(url)
 
 		for qxs in hxs.select(self.entries):
-			print iter(qxs.select("./td[5]//text()")).next().extract(), iter(qxs.select("./td[6]//text()")).next().extract()
+			print "%s\t%s\t%s"%(
+					iter(qxs.select("./td[3]//@href")).next().extract(),
+					iter(qxs.select("./td[5]//text()")).next().extract(),
+					iter(qxs.select("./td[6]//text()")).next().extract())
 def main():
 	"""Setups item signal and run the spider"""
 	# set up signal to catch items scraped
@@ -65,9 +68,9 @@ def main():
 	#crawler.crawl(MySpider())
 
 	# start engine scrapy/twisted
-	print "STARTING ENGINE"
+#	print "STARTING ENGINE"
 	crawler.start()
-	print "ENGINE STOPPED"
+#	print "ENGINE STOPPED"
 
 if __name__ == '__main__':
 	main()
