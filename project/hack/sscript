@@ -1,0 +1,2 @@
+python2 cr.py > results/$(date +%Y-%m-%d).tsv
+

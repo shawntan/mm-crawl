@@ -24,6 +24,7 @@ class Matrix:
 		return Matrix(result)
 
 	def scalar(self,m1,m2,op):
+		if len(m1) != len(m2) or len(m1[0]) != len(m2[0]): raise Exception("Wrong dimensions.")
 		result = []
 		for j in range(len(m1)):
 			result.append([])
@@ -31,7 +32,8 @@ class Matrix:
 				result[j].append(op(m1[j][i],m2[j][i]))
 		return Matrix(result)
 	def mmult(self,m1,m2):
-		if len(m1[0]) != len(m2): return None
+		if len(m1[0]) != len(m2) or len(m2[0]) != len(m1):
+			raise Exception("Wrong dimensions")
 		result = []
 		for j in range(len(m1)):
 			result.append([])
@@ -55,7 +57,7 @@ class Matrix:
 	def eliminate(self,other):
 		clone,result = Matrix(deepcopy(self.arr)),Matrix(deepcopy(other.arr))
 		m1,m2 = clone.arr,result.arr
-
+		if len(m1) != len(m2): raise Exception("Wrong dimensions")
 		for col in range(len(m1[0])):
 			nonzero = (i for i in range(col,len(m1)) if m1[i][col]!=0).next()
 			factor = 1.0/float(m1[nonzero][col])
@@ -88,16 +90,12 @@ class Matrix:
 	@staticmethod
 	def identity(n):
 		return Matrix([[0 if j!=i else 1 for i in range(n) ] for j in range(n)])
+	def __repr__(self):
+		return 'Matrix(%s)'%(self.arr.__repr__())
 
-m = Matrix([
-	[2.0,0.0,7.0],
-	[1.0,1.0,0.0],
-	[1.0,0.0,3.0]
-])
+def vector(l):
+	return Matrix([[i] for i in l])
 
-I = Matrix([
-	[1,0,0],
-	[0,1,0],
-	[0,0,1]
-])
+
+
  
