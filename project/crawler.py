@@ -44,6 +44,8 @@ class Crawler(QObject):
 		except KeyError:
 			print "Set empty."
 			sys.exit()
-crawler = Crawler()
-crawler.load("http://www.boxoffice.com/statistics/alltime_numbers/domestic/data")
-crawler.app.exec_()	
+
+if __name__=="__main__":
+	crawler = Crawler()
+	crawler.load("http://www.boxoffice.com/statistics/alltime_numbers/domestic/data")
+	crawler.app.exec_()
