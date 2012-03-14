@@ -1,0 +1,7 @@
+#!/usr/bin/gnuplot
+set terminal png
+set output 'edmw.png'
+f(x) = a*x + b
+fit f(x) 'sorted-total.txt' using 1:2 via a,b
+title_f(a,b) = sprintf('f(x) = %.2fx + %.2f',a, b)
+plot 'sorted-total.txt', f(x) t title_f(a,b)
