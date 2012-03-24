@@ -3,7 +3,7 @@ def reward(document):
 	doc_text = unicode(document.toPlainText(),errors="ignore")
 	if doc_text.find("user:")>=0 and doc_text.find("created:")>=0:
 		print doc_text
-		return 10
+		return 100
 	else: return -1
 
 	"""

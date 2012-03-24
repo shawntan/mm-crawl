@@ -3,17 +3,26 @@ Feature extraction module.
 """
 from PyQt4.QtWebKit import QWebElement
 import re,sys
+from matrix import *
 rgb_matcher = re.compile("\w+\((\d*), (\d*), (\d*)(, (\d*))?\)")
 
 def extract_features(prev,curr,nexx):
-	pass
-	#print content_features(curr) + visual_features(curr)
+	featup = content_features(curr) +\
+			 visual_features(curr)  +\
+			 link_features(curr)
+	return featup
 def content_features(e):
 	text_content = unicode(e.toPlainText(),errors="ignore")
 	tokens = text_content.split()
 	
 	return (len(tokens),len(text_content))
-	
+
+def link_features(e):
+	href = str(e.attribute("href"))
+	sl_cnt = href.count('/')
+	param_cnt = href.count('&') + href.count('?')
+	return (sl_cnt,param_cnt)
+
 def visual_features(e):
 	topLeft =  e.geometry().topLeft()
 	bgColour = e.styleProperty("background-color",QWebElement.ComputedStyle)
@@ -23,7 +32,7 @@ def visual_features(e):
 	bgrgb = extract_colour(bgColour)
 	hs = hue_sat(fgrgb,bgrgb)
 
-	return (topLeft.x(),topLeft.y()) + fgrgb + bgrgb + hs
+	return (topLeft.x(),topLeft.y()) + (1,1) + hs
 
 
 def extract_colour(color):

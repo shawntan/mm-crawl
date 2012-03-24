@@ -14,6 +14,7 @@ class Browser(QObject):
 		self.page = self.view.page()
 		self.page.mainFrame().loadFinished.connect(self.cb)
 	def load(self,url):
+		print url
 		self.page.mainFrame().setUrl(QUrl(url))
 		self.current_url = url
 	def cb(self):
