@@ -6,6 +6,11 @@ import re,sys
 from matrix import *
 rgb_matcher = re.compile("\w+\((\d*), (\d*), (\d*)(, (\d*))?\)")
 
+
+"""
+store of words found on target pages
+"""
+
 def extract_features(prev,curr,nexx):
 	featup = content_features(curr) +\
 			 visual_features(curr)  +\
