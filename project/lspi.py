@@ -49,7 +49,6 @@ def select_action(vector_list):
 	r = random.uniform(0,cum_exp)
 	#print "Max " + str(cum_exp)
 	exp,s,u,vec = heapq.heappop(scores)
-	print u
 	while -r > exp and scores:
 		#print exp,s,u
 		exp,s,u,vec = heapq.heappop(scores)

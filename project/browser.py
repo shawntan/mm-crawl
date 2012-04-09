@@ -14,11 +14,11 @@ class Browser(QObject):
 		self.page = self.view.page()
 		self.page.mainFrame().loadFinished.connect(self.cb)
 	def load(self,url):
-		print url
 		self.page.mainFrame().setUrl(QUrl(url))
 		self.current_url = url
+	def back(self):
+		self.view.back()
 	def cb(self):
-		print "done"
 		usleep(INITIAL_SLEEP)
 		document = self.page.mainFrame().documentElement()
 		self.callback(self,self.current_url,document)
