@@ -44,7 +44,7 @@ def select_action(vector_list):
 	for url,vec in vector_list:
 		score = (weight*vec).arr[0][0]
 		tup = -cum_exp,score,url,vec
-		cum_exp += math.exp(score/20)
+		cum_exp += math.exp(score/1000)
 		heapq.heappush(scores,tup)
 	r = random.uniform(0,cum_exp)
 	#print "Max " + str(cum_exp)

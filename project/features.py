@@ -16,6 +16,12 @@ def extract_features(prev,curr,nexx):
 			 visual_features(curr)  +\
 			 link_features(curr)
 	return featup
+
+def document_features(e):
+	text_content = unicode(e.toPlainText(),errors="ignore")
+	tokens = text_content.split()
+	return (len(tokens),len(text_content))
+
 def content_features(e):
 	text_content = unicode(e.toPlainText(),errors="ignore")
 	tokens = text_content.split()

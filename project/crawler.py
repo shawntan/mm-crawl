@@ -16,9 +16,13 @@ def queue_processor(self,curr_url,document):
 	"""
 	anchors = document.findAll("a")
 	link_queue = []
+	doc_fvec = document_features(document)
+	a_ft_len = None
 	for a in anchors:
 		try:
-			fvec = vector(extract_features(a.previousSibling(),a,a.nextSibling()))
+			a_ft = extract_features(a.previousSibling(),a,a.nextSibling())
+			a_ft_len = len(a_ft)
+			fvec = vector(doc_fvec+ a_ft + (0,))
 			url = str(a.attribute("href")).split('#')[0]
 			href = urljoin(curr_url,url)
 			if href not in visited\
@@ -29,10 +33,15 @@ def queue_processor(self,curr_url,document):
 				link_queue.append((href,fvec))
 		except Exception as ex:
 			print ex
+
 	if link_queue:
+		if history_stack:
+			#count fvec length
+			back_fvec = vector(doc_fvec + a_ft_len*(0,) + (1,))
+			link_queue.append((history_stack[-1],back_fvec))
 		link,vec = select_action(link_queue)
 		if not visited_before:
-			r= reward(document)
+			r = reward(document)
 			update(r,vec)
 		history_stack.append(curr_url)
 		self.load(link)

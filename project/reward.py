@@ -4,7 +4,7 @@ def reward(document):
 	if doc_text.find("user:")>=0 and doc_text.find("created:")>=0:
 		print doc_text
 		return 100
-	else: return -1
+	else: return -10
 
 	"""
 	links = document.findAll(".entry a")
