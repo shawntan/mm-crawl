@@ -22,11 +22,19 @@ def document_features(e):
 	tokens = text_content.split()
 	return (len(tokens),len(text_content))
 
+link_tokens = {}
+surround_tokens = {}
 def content_features(e):
 	text_content = unicode(e.toPlainText(),errors="ignore")
 	tokens = text_content.split()
-	
 	return (len(tokens),len(text_content))
+
+def textual_features(e,tokens,tokencount):
+	for i in tokens: tokencount[i] = tokencount.get(i,0) + 1
+
+
+
+
 
 def link_features(e):
 	href = str(e.attribute("href"))
