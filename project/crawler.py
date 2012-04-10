@@ -9,9 +9,14 @@ import sys,random
 visited = set()
 history_stack = []
 
+LOG = open('lspi-crawler.log','w')
+cost = 0
+targets = 0
+
+
 a_ft_len = None
 def queue_processor(self,curr_url,document):
-	global a_ft_len
+	global a_ft_len,cost,targets,LOG
 	print "=========================================================================="
 	print "\tcurrently at %s"%curr_url
 
@@ -37,7 +42,7 @@ def queue_processor(self,curr_url,document):
 			url = str(a.attribute("href")).split('#')[0]
 			href = urljoin(curr_url,url)
 			if href not in visited\
-			and href.find("ycombinator.com") >= 0\
+			and href.find("news.ycombinator.com") >= 0\
 			and not href.endswith("jpg")\
 			and not href.endswith("gif")\
 			and not href.endswith("png")\
@@ -51,11 +56,18 @@ def queue_processor(self,curr_url,document):
 	link,vec = select_action(link_queue)
 
 	if not visited_before:
+		cost += 1
 		r = reward(document)
+		if r > 5: targets += 1
 		update(r,vec)
 	else:
 		update(-1,vec)
-
+	
+	try:
+		LOG.write("%d\t%d\n"%(cost,targets))
+		LOG.flush()
+	except Exception as e:
+		print e
 
 	print "Action to take: %s"%link
 	#history_stack.append(curr_url)

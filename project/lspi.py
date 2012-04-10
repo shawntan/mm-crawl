@@ -31,8 +31,8 @@ def update_weights():
 	global weight,A,b
 	print "updating weights..."
 	weight = A.eliminate(b).transpose()
-	print A
-	print b
+	#print A
+	#print b
 	print weight
 
 def select_action(vector_list):

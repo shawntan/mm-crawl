@@ -22,12 +22,14 @@ store of words found on target pages
 
 def extract_features(curr,seen_elements):
 
-	featup = content_features(curr.parent(),surround_tokens,curr.parent() not in seen_elements) +\
+	featup = content_features(curr.nextSibling(),surround_tokens,curr.nextSibling() not in seen_elements) +\
+			 content_features(curr.previousSibling(),surround_tokens,curr.previousSibling() not in seen_elements) +\
 			 content_features(curr,link_tokens,curr not in seen_elements) +\
 			 visual_features(curr)  +\
 			 link_features(curr)
 	seen_elements.add(curr)
-	seen_elements.add(curr.parent())
+	seen_elements.add(curr.previousSibling())
+	seen_elements.add(curr.nextSibling())
 	return featup
 
 def document_features(e):
@@ -46,7 +48,8 @@ def content_features(e,tokencount,count):
 	if count:wordcount(e,tokens,tokencount)
 	wc_vec = [0]*k
 	i=0
-	for w in get_top_k_words(k,tokencount):
+	for _,w in get_top_k_words(k,tokencount):
+		#print w
 		wc_vec[i] = tokens.count(w)
 		i+=1
 	
@@ -65,7 +68,8 @@ def preprocess(word):
 def get_top_k_words(k,tokencount):
 	vocab = [(val,key) for key,val in tokencount.iteritems()]
 	vocab.sort()
-	return (w for _,w in vocab[:k])
+	return vocab[-k:]
+
 def wordcount(e,tokens,tokencount):
 	for i in tokens:tokencount[i] = tokencount.get(i,0) + 1
 
