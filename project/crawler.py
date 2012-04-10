@@ -28,9 +28,10 @@ def queue_processor(self,curr_url,document):
 		back_fvec = vector(doc_fvec + a_ft_len*(0,) + (1,))
 		link_queue.append(("back",back_fvec))
 
+	seen_elements = set()
 	for a in anchors:
 		try:
-			a_ft = extract_features(a.previousSibling(),a,a.nextSibling())
+			a_ft = extract_features(a,seen_elements)
 			a_ft_len = len(a_ft)
 			fvec = vector(doc_fvec+ a_ft + (0,))
 			url = str(a.attribute("href")).split('#')[0]
