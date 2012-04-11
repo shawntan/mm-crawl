@@ -1,6 +1,6 @@
 from matrix import *
 import math,random,heapq
-DISCOUNT = 0.9
+DISCOUNT = 1
 WEIGHT_UPDATE = 10
 
 A = None
@@ -44,7 +44,7 @@ def select_action(vector_list):
 	for url,vec in vector_list:
 		score = (weight*vec).arr[0][0]
 		tup = -cum_exp,score,url,vec
-		cum_exp += math.exp(score/1000)
+		cum_exp += math.exp(score/500)
 		heapq.heappush(scores,tup)
 	r = random.uniform(0,cum_exp)
 	#print "Max " + str(cum_exp)

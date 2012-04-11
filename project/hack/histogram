@@ -1,0 +1,6 @@
+#!/usr/bin/gnuplot
+set terminal png
+set output 'hist.png'
+binwidth=100
+bin(x,width)=width*floor(x/width) 
+plot 'test' using (bin($1,binwidth)):(1.0) smooth freq with boxes

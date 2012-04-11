@@ -24,9 +24,9 @@ def extract_features(curr,seen_elements):
 
 	featup = content_features(curr.nextSibling(),surround_tokens,curr.nextSibling() not in seen_elements) +\
 			 content_features(curr.previousSibling(),surround_tokens,curr.previousSibling() not in seen_elements) +\
-			 content_features(curr,link_tokens,curr not in seen_elements) +\
-			 visual_features(curr)  +\
+			 content_features(curr,link_tokens,curr not in seen_elements)  +\
 			 link_features(curr)
+			 #visual_features(curr)  +\
 	seen_elements.add(curr)
 	seen_elements.add(curr.previousSibling())
 	seen_elements.add(curr.nextSibling())

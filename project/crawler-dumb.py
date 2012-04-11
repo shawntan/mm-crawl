@@ -9,7 +9,7 @@ import sys,random
 visited = set()
 history_stack = []
 
-LOG = open('lspi-crawler.log','w')
+LOG = open('noob-crawler.log','w')
 cost = 0
 targets = 0
 
@@ -38,7 +38,7 @@ def queue_processor(self,curr_url,document):
 		try:
 			a_ft = extract_features(a,seen_elements)
 			a_ft_len = len(a_ft)
-			fvec = vector(doc_fvec+ a_ft + (0,))
+			#fvec = vector(doc_fvec+ a_ft + (0,))
 			url = str(a.attribute("href")).split('#')[0]
 			href = urljoin(curr_url,url)
 			if href not in visited\
@@ -47,21 +47,22 @@ def queue_processor(self,curr_url,document):
 			and not href.endswith("gif")\
 			and not href.endswith("png")\
 			and href.startswith("http:"):
-				link_queue.append((href,fvec))
+				link_queue.append((href,[]))
 		except Exception as ex:
 			print ex
 
 	#count fvec length
 	
-	link,vec = select_action(link_queue)
+	link,vec = link_queue.pop(0)
 
 	if not visited_before:
 		cost += 1
 		r = reward(document)
 		if r > 5: targets += 1
-		update(r,vec)
+		#update(r,vec)
 	else:
-		update(-1,vec)
+		pass
+		#update(-1,vec)
 	
 	try:
 		LOG.write("%d\t%d\n"%(cost,targets))

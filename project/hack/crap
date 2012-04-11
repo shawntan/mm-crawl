@@ -1,0 +1,6 @@
+#!/bin/bash
+
+python2 thread.py http://forums.hardwarezone.com.sg/eat-drink-man-woman-16/japanese-ghost-video-consolidated-2012-a-3677073.html
+python2 thread.py http://forums.hardwarezone.com.sg/eat-drink-man-woman-16/%5Bofficial%5D-nba-season-playoffs-11-12-a-3501328.html
+python2 thread.py http://forums.hardwarezone.com.sg/eat-drink-man-woman-16/nmnhnlm-ppl-lip-lai-part-9-a-3657680.html
+python2 thread.py http://forums.hardwarezone.com.sg/eat-drink-man-woman-16/got-job-lobang-technical-people-3671980.html
