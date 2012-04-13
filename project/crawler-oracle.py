@@ -75,7 +75,8 @@ def queue_processor(self,curr_url,document):
 
 	print "Action to take: %s"%link
 	#history_stack.append(curr_url)
-	if link == "back": self.back()
+	if link == "back":
+		self.back()
 	else:self.load(link)
 	"""
 	except Exception as ex:

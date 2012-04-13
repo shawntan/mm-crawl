@@ -1,3 +1,4 @@
+#!/usr/bin/python2
 import random,nltk,string,itertools,re,sys
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
@@ -33,7 +34,7 @@ def preprocess(word):
 	w = non_alphanum.sub("",word)
 	w = w.lower()
 	if w in stop_words: return
-	w = stemmer.stem_word(w)
+#	w = stemmer.stem_word(w)
 	w = number.sub("",w)
 	return w
 
@@ -47,8 +48,9 @@ word_dist = nltk.FreqDist(itertools.chain(*(instance[1] for instance in instance
 features = word_dist.keys()[:500] + features
 features = set(features)
 massaged_instances = [create_instance(features,instance[0],instance[1]) for instance in instances]
-bayesclassifier = nltk.NaiveBayesClassifier.train(massaged_instances[len(massaged_instances)-500:])
+random.shuffle(massaged_instances)
+bayesclassifier = nltk.NaiveBayesClassifier.train(massaged_instances[:-500])
 print bayesclassifier.show_most_informative_features(20)
-print nltk.classify.accuracy(bayesclassifier,massaged_instances[:500])
+print nltk.classify.accuracy(bayesclassifier,massaged_instances[-500:])
 
 

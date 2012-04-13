@@ -77,7 +77,6 @@ class Matrix:
 					clone.add_multiple_of_row(row,col,-fac)
 					result.add_multiple_of_row(row,col,-fac)
 		return result
-			
 	def swap_row(self,src,desc):
 		self.arr[src],self.arr[desc] = self.arr[desc],self.arr[src]
 	def multiply_row(self, factor, row):

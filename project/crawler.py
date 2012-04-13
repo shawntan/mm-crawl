@@ -16,8 +16,9 @@ targets = 0
 
 link_queue = []
 a_ft_len = None
+
 def queue_processor(self,curr_url,document):
-	global a_ft_len,cost,targets,LOG
+	global a_ft_len,LOG,cost,targets
 	print "=========================================================================="
 	print "\tcurrently at %s"%curr_url
 
@@ -28,17 +29,17 @@ def queue_processor(self,curr_url,document):
 	"""
 	anchors = document.findAll("a")
 	doc_fvec = document_features(document)
-
+	"""
 	if a_ft_len:
 		back_fvec = vector(doc_fvec + a_ft_len*(0,) + (1,))
 		link_queue.append(("back",back_fvec))
-
+	"""
 	seen_elements = set()
 	for a in anchors:
 		try:
 			a_ft = extract_features(a,seen_elements)
 			a_ft_len = len(a_ft)
-			fvec = vector(doc_fvec+ a_ft + (0,))
+			fvec = vector(doc_fvec+ a_ft)
 			url = str(a.attribute("href")).split('#')[0]
 			href = urljoin(curr_url,url)
 			if href not in visited\
@@ -56,13 +57,13 @@ def queue_processor(self,curr_url,document):
 	link,vec = select_action(link_queue)
 
 	if not visited_before:
-		cost += 1
 		r = reward(document)
-		if r > 5: targets += 1
+		if r>5:targets+=1
 		update(r,vec)
+		cost += 1
 	else:
 		update(-1,vec)
-	
+
 	try:
 		LOG.write("%d\t%d\n"%(cost,targets))
 		LOG.flush()
