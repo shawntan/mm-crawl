@@ -1,19 +1,19 @@
 from matrix import *
 import math,random,heapq
-DISCOUNT = 0.9
+DISCOUNT = 1
 WEIGHT_UPDATE = 10
 
 A = None
 b = None
 weight = None
 prev_bf = None
-count = -10
+count = -11
 N = None
 def initialise(n):
 	global A,b,weight
 	A = Matrix.identity(n)
 	b = vector([0]*n)
-	weight = Matrix([[1]*n])
+	weight = Matrix([[0]*n])
 
 def update(reward,curr_bf):
 	global A,b,prev_bf,count,N
@@ -21,7 +21,7 @@ def update(reward,curr_bf):
 		A = A + prev_bf*(prev_bf-DISCOUNT*curr_bf).transpose()
 		b = b + reward*prev_bf
 	prev_bf = curr_bf
-	if count == 0:
+	if count == -1:
 		initialise(N)
 		count += 1
 	elif count == WEIGHT_UPDATE:
@@ -49,7 +49,7 @@ def select_action(vector_list):
 	for url,vec in vector_list:
 		score = (weight*vec).arr[0][0]
 		tup = -cum_exp,score,url,vec
-		cum_exp += math.exp(score/10000)
+		cum_exp += math.exp(score/5)
 		heapq.heappush(scores,tup)
 	r = random.uniform(0,cum_exp)
 	#print "Max " + str(cum_exp)

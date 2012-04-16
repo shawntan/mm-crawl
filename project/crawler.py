@@ -23,7 +23,6 @@ def queue_processor(self,curr_url,document):
 	print "\tcurrently at %s"%curr_url
 
 	visited_before = curr_url in visited
-	visited.add(curr_url)
 	"""
 	try:
 	"""
@@ -44,11 +43,12 @@ def queue_processor(self,curr_url,document):
 			href = urljoin(curr_url,url)
 			if href not in visited\
 			and href.find("news.ycombinator.com") >= 0\
-			and not href.endswith("jpg")\
-			and not href.endswith("gif")\
-			and not href.endswith("png")\
+			and not href.endswith("jpg") \
+			and not href.endswith("gif") \
+			and not href.endswith("png") \
 			and href.startswith("http:"):
 				link_queue.append((href,fvec))
+				visited.add(curr_url)
 		except Exception as ex:
 			print ex
 
@@ -56,9 +56,12 @@ def queue_processor(self,curr_url,document):
 	
 	link,vec = select_action(link_queue)
 
-	if not visited_before:
+	if not visited_before :
 		r = reward(document)
-		if r>5:targets+=1
+		if curr_url.find("user?id") >= 0:
+			print "YEAH"
+			r = 4
+		if r>0:targets+=1
 		update(r,vec)
 		cost += 1
 	else:

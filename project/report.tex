@@ -21,15 +21,9 @@ Focused crawling makes use of information given on the visited page to try to de
 Crawling is also largely a task that requires some programming knowledge to perform. In order to crawl the site in an efficient manner, a programmer has to specify which links to follow, or add to the FIFO queue, at any given page. The job of reinforcement-learning based crawlers is to figure out during the crawl which links are relevant to follow, cutting out the need for a programmer to explicitly state the links to be followed.
 
 In this report, we experiment with using a particular MDP-based reinforcement learning algorithm, the Least-Squares Policy Iteration %
-We achieve results slightly better than the naive version.
+We achieve results slightly better than the naive version of the crawler, which crawls in a breadth first search manner.
 
 \section{Proposed Approach \& Implementation}
-I intend to investigate how modeling not only the uncertainty of the transitions, but also the uncertainty of the current state the crawler or bot is in using POMDPs would affect its performance, and its overall efficiency.
-
-My UROP topic was based on Web Information Extraction, and when POMDPs were introduced during the course of CS4246, I thought it would be interesting to apply it to focused web crawling. There has been work done using reinforcement learning to control a web crawler \cite{Perez2003,Rennie1999,Menczer2000}, but to my knowledge, none for POMDPs. I would like to investigate how accounting for state by giving it a probability distribution would improve the performance of the crawler.
-
-The project is likely to be a web crawler implemented in Python. One of my learning goals in implementing the project, is to understand what are the various ways POMDPs are solved or approximated. In doing so, I aim to use the method most suitable for this particular problem. The process of framing the as a POMDP also requires mapping of state-actions or state-action-states to rewards. This is another detail with regards to using POMDPs that I would like to look further into.
-
 To evaluate the system, I intend to employ the methods used in Rennie, 1999 \cite{Rennie1999}. Given a site, I will identify similar pages of the same type of data, using this as the target set of pages for each crawler to find. Two different control crawlers will be implemented:
 \begin{description}
 	\item[\textsc{Optimal}] This crawler will be scripted by hand to navigate directly from the start point to the various target pages to be downloaded.

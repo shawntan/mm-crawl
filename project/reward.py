@@ -3,8 +3,8 @@ def reward(document):
 	doc_text = unicode(document.toPlainText(),errors="ignore")
 	if doc_text.find("user:")>=0 and doc_text.find("created:")>=0:
 		print doc_text
-		return 20
-	else: return -10
+		return 4
+	else: return -1
 
 	"""
 	links = document.findAll(".entry a")

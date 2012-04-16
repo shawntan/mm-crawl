@@ -31,13 +31,15 @@ def extract_features(curr,seen_elements):
 	seen_elements.add(curr.parent())
 	return featup
 
+doc_tokens = {}
 def document_features(e):
 	print get_top_k_words(10,link_tokens)
 	print get_top_k_words(10,surround_tokens)
 	print get_top_k_words(10,url_tokens)
+	print get_top_k_words(10,doc_tokens)
 	text_content = unicode(e.toPlainText(),errors="ignore")
 	tokens = text_content.split()
-	return (len(tokens),len(text_content))
+	return (len(tokens),len(text_content)) + content_features(e,doc_tokens,True)
 
 link_tokens = {}
 surround_tokens = {}
@@ -56,17 +58,17 @@ def content_features(e,tokencount,count):
 		wc_vec[i] = 1 if w in tokens else 0
 		i+=1
 	
-	#print "Feature vector "
-	#print (len(tokens),len(text_content)) + tuple(wc_vec)
+	#print "Feature vector " (len(tokens),len(text_content)) +
 	return  tuple(wc_vec)
 
 def preprocess(word):
 	w = non_alphanum.sub("",word)
 	w = w.lower()
 	if w in stop_words: return
-	elif w in ["ycombinator","news","http","com"]:return
+	elif w in ["ycombinator","news","http","com","www"]:return
 	w = stemmer.stem_word(w)
 	w = number.sub("",w)
+	if len(w) < 3: return
 	return w
 
 def get_top_k_words(k,tokencount):
@@ -78,7 +80,7 @@ def get_top_k_words(k,tokencount):
 
 def wordcount(e,tokens,tokencount):
 	global count
-	if count > 1000: return
+	if count > 2000: return
 	for i in tokens:tokencount[i] = tokencount.get(i,0) + 1
 	count +=1
 url_tokens = {}
@@ -95,7 +97,7 @@ def link_features(e):
 	for w in get_top_k_words(k,url_tokens):
 		wc_vec[i] = 1 if w in tokens else 0
 		i+=1
-	#(sl_cnt,param_cnt) +
+	#(sl_cnt,param_cnt) + 
 	return tuple(wc_vec)
 
 def visual_features(e):
